@@ -1,31 +1,12 @@
 import os
-import warnings
 import pickle
 import pandas as pd
 import math
 import numpy as np
 import datetime
 import inflection
-import seaborn as sns
-import matplotlib.pyplot as plt
-from scipy import stats
-from tabulate import tabulate
-from boruta import BorutaPy
-from pathlib import Path
 
-from IPython.core.display import HTML
-from IPython.display import Image
-
-from xgboost import XGBRegressor
-from sklearn.preprocessing import RobustScaler, MinMaxScaler, LabelEncoder
-from sklearn.ensemble import RandomForestRegressor
-from sklearn.metrics import mean_absolute_error, mean_squared_error
-from sklearn.linear_model import LinearRegression, Lasso
-from sklearn.model_selection import RandomizedSearchCV, train_test_split, BaseCrossValidator
-from skopt import BayesSearchCV, space 
-
-
-class Rossman( object ):
+class RossmanPreprocessing( object ):
     def __init__(self):
         self.competition_distance_scaler        = pickle.load(open('parameters/competition_distance_scaler.pkl', 'rb'))
         self.competition_time_month_scaler      = pickle.load(open('parameters/competition_time_month_scaler.pkl', 'rb'))

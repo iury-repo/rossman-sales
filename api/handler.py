@@ -1,11 +1,14 @@
+import os
 import pandas as pd
 from xgboost import XGBRegressor
-from flask import Flask, Response, request
+from flask import Flask, request ,Response
 from preprocessing.Rossman import RossmanPreprocessing
 
 # Loading model
+home_path = os.getcwd()
+
 model = XGBRegressor()
-model.load_model('model/xgb_rossman.json') 
+model.load_model(home_path + 'model/xgb_rossman.json') 
 
 # Initializing API
 app = Flask(__name__)
@@ -19,7 +22,7 @@ def rossman_predict():
             test_raw = pd.DataFrame(test_json, index=[0])
         else:
             test_raw = pd.DataFrame(test_json, columns= test_json[0].keys())    # If there's multiple examples
-
+            
         # Instantiate preprocessing class
         pipeline = RossmanPreprocessing()
 

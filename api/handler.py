@@ -5,10 +5,8 @@ from flask import Flask, request ,Response
 from preprocessing.Rossman import RossmanPreprocessing
 
 # Loading model
-home_path = os.getcwd()
-
 model = XGBRegressor()
-model.load_model(home_path + 'model/xgb_rossman.json') 
+model.load_model('/home/iury_unix/ml_projects/rossman_sales_prediction/model/xgb_rossman.json') 
 
 # Initializing API
 app = Flask(__name__)

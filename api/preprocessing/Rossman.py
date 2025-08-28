@@ -8,7 +8,7 @@ import inflection
 
 class RossmanPreprocessing( object ):
     def __init__(self):
-        self.home_path = os.getcwd()
+        self.home_path = '/home/iury_unix/ml_projects/rossman_sales_prediction/'
         self.competition_distance_scaler        = pickle.load(open( self.home_path + 'parameters/competition_distance_scaler.pkl', 'rb'))
         self.competition_time_month_scaler      = pickle.load(open(self.home_path + 'parameters/competition_time_month_scaler.pkl', 'rb'))
         self.promo_time_week_scaler             = pickle.load(open(self.home_path + 'parameters/promo_time_week_scaler.pkl', 'rb'))

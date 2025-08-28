@@ -8,14 +8,15 @@ import inflection
 
 class RossmanPreprocessing( object ):
     def __init__(self):
-        self.competition_distance_scaler        = pickle.load(open('parameters/competition_distance_scaler.pkl', 'rb'))
-        self.competition_time_month_scaler      = pickle.load(open('parameters/competition_time_month_scaler.pkl', 'rb'))
-        self.promo_time_week_scaler             = pickle.load(open('parameters/promo_time_week_scaler.pkl', 'rb'))
-        self.year_scaler                        = pickle.load(open('parameters/year_scaler.pkl', 'rb'))
-        self.store_type_encoding                = pickle.load(open('parameters/store_type_encoding.pkl', 'rb'))
+        self.home_path = os.getcwd()
+        self.competition_distance_scaler        = pickle.load(open( self.home_path + 'parameters/competition_distance_scaler.pkl', 'rb'))
+        self.competition_time_month_scaler      = pickle.load(open(self.home_path + 'parameters/competition_time_month_scaler.pkl', 'rb'))
+        self.promo_time_week_scaler             = pickle.load(open(self.home_path + 'parameters/promo_time_week_scaler.pkl', 'rb'))
+        self.year_scaler                        = pickle.load(open(self.home_path + 'parameters/year_scaler.pkl', 'rb'))
+        self.store_type_encoding                = pickle.load(open(self.home_path + 'parameters/store_type_encoding.pkl', 'rb'))
 
-    def data_cleaning(self, df_raw_1):
-        old_cols = ['Store', 'DayOfWeek', 'Date', 'Sales', 'Customers', 'Open', 'Promo',
+    def data_cleaning(self, df_raw_1):                                     # Removed ['sales', 'customers'], as they are not used for prediction
+        old_cols = ['Store', 'DayOfWeek', 'Date', 'Open', 'Promo',
                 'StateHoliday', 'SchoolHoliday', 'StoreType', 'Assortment',
                 'CompetitionDistance', 'CompetitionOpenSinceMonth',
                 'CompetitionOpenSinceYear', 'Promo2', 'Promo2SinceWeek',
@@ -99,10 +100,10 @@ class RossmanPreprocessing( object ):
         df2['state_holiday'] = df2['state_holiday'].apply(lambda x: 'public_holiday' if x == 'a' else 'easter_holiday' if x == 'b' else 'christmas' if x == 'c' else 'regular_day')
 
         # 2.5. Row filtering 
-        df2 = df2[(df2['open'] != 0) & (df2['sales'] > 0)]
+        df2 = df2[df2['open'] != 0]
 
         # 2.6. Column selection
-        cols_drop = ['customers', 'open', 'promo_interval', 'month_map']
+        cols_drop = ['open', 'promo_interval', 'month_map']
         df2 = df2.drop(cols_drop, axis=1)
 
         return df2
@@ -157,3 +158,12 @@ class RossmanPreprocessing( object ):
                          'week_of_year_cos','week_of_year_sin','day_of_week_sin','day_of_week_cos']
 
         return df5[cols_selected]
+    
+    def get_prediction(self, model, original_data, test_data):
+        # Prediction
+        pred = model.predict(test_data)
+
+        # Joining results
+        original_data['predictions'] = np.expm1(pred)
+
+        return original_data.to_json(orient='records', date_format='iso')

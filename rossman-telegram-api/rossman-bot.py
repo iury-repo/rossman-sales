@@ -16,7 +16,7 @@ TOKEN = '7343342169:AAEbj6Rr2pMyQgUIUlu2JHcGV49N1n5-EAI'
 # https://api.telegram.org/bot7343342169:AAEbj6Rr2pMyQgUIUlu2JHcGV49N1n5-EAI/getUpdates
 
 # Set Webhook
-# https://api.telegram.org/bot7343342169:AAEbj6Rr2pMyQgUIUlu2JHcGV49N1n5-EAI/setWebhook?url=https://a802f74dfa93.ngrok-free.app
+# https://api.telegram.org/bot7343342169:AAEbj6Rr2pMyQgUIUlu2JHcGV49N1n5-EAI/setWebhook?url=https://358ead7cb4fc4a.lhr.life
 
 # # Send Message
 # https://api.telegram.org/bot7343342169:AAEbj6Rr2pMyQgUIUlu2JHcGV49N1n5-EAI/sendMessage?chat_id=7927049424&text=Hi Iury im doing good! thanks
@@ -70,7 +70,7 @@ def predict(data):
 
 def parse_message(message):
     chat_id = message['message']['chat']['id']
-    store_id = message['message']['chat']['text']
+    store_id = message['message']['text']
 
     store_id = store_id.replace('/', '')
 
@@ -118,6 +118,6 @@ def index():
     else:
         return '<h1> Rossman Telegram Bot <h1>'
 
-if '__name__' == '__main__':
+if __name__ == '__main__':
     app.run(host= '0.0.0.0', port=5000)
 

@@ -3,7 +3,7 @@ import pickle
 import pandas as pd
 import math
 import numpy as np
-import datetime
+import datetime 
 import inflection
 
 class RossmanPreprocessing( object ):
@@ -167,3 +167,4 @@ class RossmanPreprocessing( object ):
         original_data['predictions'] = np.expm1(pred)
 
         return original_data.to_json(orient='records', date_format='iso')
+    

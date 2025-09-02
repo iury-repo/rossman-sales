@@ -18,6 +18,10 @@ TOKEN = '7343342169:AAEbj6Rr2pMyQgUIUlu2JHcGV49N1n5-EAI'
 # Set Webhook
 # https://api.telegram.org/bot7343342169:AAEbj6Rr2pMyQgUIUlu2JHcGV49N1n5-EAI/setWebhook?url=https://358ead7cb4fc4a.lhr.life
 
+# Webhook Render app
+# https://api.telegram.org/bot7343342169:AAEbj6Rr2pMyQgUIUlu2JHcGV49N1n5-EAI/setWebhook?url=https://rossman-bot-6maz.onrender.com
+
+
 # # Send Message
 # https://api.telegram.org/bot7343342169:AAEbj6Rr2pMyQgUIUlu2JHcGV49N1n5-EAI/sendMessage?chat_id=7927049424&text=Hi Iury im doing good! thanks
 
@@ -33,8 +37,10 @@ def send_message(chat_id, text):
 
 def load_dataset(store_id):
 
-    df_load = pd.read_csv('/home/iury_unix/ml_projects/rossman_sales_prediction/data/raw/test.csv')
-    df_store = pd.read_csv('/home/iury_unix/ml_projects/rossman_sales_prediction/data/raw/store.csv')
+    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+    df_load = pd.read_csv(os.path.join(BASE_DIR, 'test.csv'))
+    df_store = pd.read_csv(os.path.join(BASE_DIR, 'store.csv'))
 
     # Merge test and store
     df_test = pd.merge(df_load, df_store, how='left', on='Store')
@@ -119,5 +125,6 @@ def index():
         return '<h1> Rossman Telegram Bot <h1>'
 
 if __name__ == '__main__':
-    app.run(host= '0.0.0.0', port=5000)
+    port = os.environ.get('PORT', 5000)
+    app.run(host= '0.0.0.0', port=port)
 
